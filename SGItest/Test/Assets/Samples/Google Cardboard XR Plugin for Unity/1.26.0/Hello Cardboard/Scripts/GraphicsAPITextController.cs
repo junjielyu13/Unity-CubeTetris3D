@@ -32,7 +32,7 @@ public class GraphicsAPITextController : MonoBehaviour
 {
     private TextMesh tm;
     public Rigidbody rb;
-    public Camera mainCamera; // 引用到主相机
+    public Camera mainCamera;
     public float moveSpeed = 5f;
     public GameObject cub1;
     public GameObject cub2;
@@ -165,21 +165,17 @@ public class GraphicsAPITextController : MonoBehaviour
         if (leftStick.magnitude > 0.1f)
         {
             tm.text = "Gamepad Axis: Left Stick (X: " + leftStick.x + ", Y: " + leftStick.y + ")";
-            Vector3 cameraForward = mainCamera.transform.forward; // 相机前方
-            Vector3 cameraRight = mainCamera.transform.right; // 相机右方
+            Vector3 cameraForward = mainCamera.transform.forward;
+            Vector3 cameraRight = mainCamera.transform.right;
 
-            // 使相机的Y轴方向为0，以便在水平面上移动
             cameraForward.y = 0;
             cameraRight.y = 0;
 
-            // 标准化方向向量
             cameraForward.Normalize();
             cameraRight.Normalize();
 
-            // 根据摇杆输入计算移动方向
             Vector3 moveDirection = (cameraForward * leftStick.y + cameraRight * leftStick.x).normalized;
 
-            // 计算最终移动向量并移动角色
             Vector3 movement = moveDirection * moveSpeed * Time.deltaTime;
             rb.MovePosition(rb.position + movement);
         }
